@@ -92,10 +92,13 @@ function App() {
   };
 
   const deleteTab = async (tabId) => {
-    const tabRealId = tabList[tabId]._id;
-    const loadedTabs = await sendDeleteTab(tabRealId);
-    setTabList(loadedTabs);
-    if (tabId === currentTab) changeTab(0);
+    const res = window.confirm("Are you sure you want to delete this tab?");
+    if (res) {
+      const tabRealId = tabList[tabId]._id;
+      const loadedTabs = await sendDeleteTab(tabRealId);
+      setTabList(loadedTabs);
+      if (tabId === currentTab) changeTab(0);
+    }
   };
 
   const deleteTask = async (tabId, taskId) => {
@@ -137,6 +140,10 @@ function App() {
           deleteTab={deleteTab}
           showMenu={showMenu}
           setShowMenu={setShowMenu}
+          reloadTabs={async () => {
+            const loadedTabs = await sendGrabTasks();
+            setTabList(loadedTabs);
+          }}
         />
 
         {/* POPUPS */}

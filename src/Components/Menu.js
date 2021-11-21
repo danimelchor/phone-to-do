@@ -1,7 +1,7 @@
 import React from "react";
 import { FiMenu, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineReload } from "react-icons/ai";
 
 export default function Menu(props) {
   var currentList;
@@ -22,11 +22,17 @@ export default function Menu(props) {
           className="text-2xl cursor-pointer hover:rotate-180 transition-transform transform duration-300"
         />
         <p className="text-blue-900 font-black text-xl">{currentList.title}</p>
-        <div
-          onClick={() => props.setHidden(!props.hidden)}
-          className="text-2xl cursor-pointer hover:text-gray-700 transition-colors duration-200"
-        >
-          {!props.hidden ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+        <div className="flex items-center justify-between gap-3">
+          <AiOutlineReload
+            onClick={props.reloadTabs}
+            className="text-2xl cursor-pointer hover:text-gray-700 transition-colors duration-200 hover:rotate-360 transition-transform transform duration-300"
+          />
+          <div
+            onClick={() => props.setHidden(!props.hidden)}
+            className="text-2xl cursor-pointer hover:text-gray-700 transition-colors duration-200"
+          >
+            {!props.hidden ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+          </div>
         </div>
       </div>
       <div
@@ -87,7 +93,10 @@ function MenuItem(props) {
               ? " text-white hover:text-gray-300"
               : " text-gray-700 hover:text-gray-900")
           }
-          onClick={() => props.editTabPopup(props.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            props.editTabPopup(props.id);
+          }}
         />
         <FiTrash2
           className={
@@ -96,7 +105,10 @@ function MenuItem(props) {
               ? " text-white hover:text-gray-300"
               : " text-gray-700 hover:text-gray-900")
           }
-          onClick={props.deleteTab}
+          onClick={(e) => {
+            e.stopPropagation();
+            props.deleteTab();
+          }}
         />
       </div>
     </div>

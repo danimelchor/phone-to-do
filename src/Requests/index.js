@@ -1,10 +1,13 @@
 import axios from "axios";
 import { SERVER_URL } from "../vars.config";
 
+const key = () => localStorage.getItem("API_KEY");
+
 export const sendCheckLoggedIn = async () => {
   const url = SERVER_URL + "/api/v1/whoami";
+  console.log(key());
   try {
-    await axios.get(url, { withCredentials: true });
+    await axios.get(url, { withCredentials: true, params: { API_KEY: key() } });
     return true;
   } catch (err) {
     console.error(err);
@@ -16,7 +19,10 @@ export const sendCheckLoggedIn = async () => {
 export const sendGrabTasks = async () => {
   const url = SERVER_URL + "/api/v1/";
   try {
-    const res = await axios.get(url, { withCredentials: true });
+    const res = await axios.get(url, {
+      withCredentials: true,
+      params: { API_KEY: key() },
+    });
     return res.data;
   } catch (err) {
     console.error(err);
@@ -28,7 +34,11 @@ export const sendGrabTasks = async () => {
 export const sendSaveTab = async (title) => {
   const url = SERVER_URL + "/api/v1/tab";
   try {
-    const res = await axios.post(url, { title }, { withCredentials: true });
+    const res = await axios.post(
+      url,
+      { title, API_KEY: key() },
+      { withCredentials: true }
+    );
     return await sendGrabTasks();
   } catch (err) {
     console.error(err);
@@ -42,7 +52,7 @@ export const sendEditTab = async (tabId, title) => {
   try {
     const res = await axios.put(
       url,
-      { tabId, title },
+      { tabId, title, API_KEY: key() },
       { withCredentials: true }
     );
     return await sendGrabTasks();
@@ -57,7 +67,7 @@ export const sendDeleteTab = async (tabId) => {
   const url = SERVER_URL + "/api/v1/tab";
   try {
     const res = await axios.delete(url, {
-      data: { tabId },
+      data: { tabId, API_KEY: key() },
       withCredentials: true,
     });
     console.log(res);
@@ -74,7 +84,7 @@ export const sendSaveTask = async (tabId, taskName) => {
   try {
     const res = await axios.post(
       url,
-      { tabId, taskName },
+      { tabId, taskName, API_KEY: key() },
       { withCredentials: true }
     );
     return await sendGrabTasks();
@@ -90,7 +100,7 @@ export const sendCompleteTask = async (tabId, taskId, completed) => {
   try {
     const res = await axios.put(
       url,
-      { tabId, taskId, completed },
+      { tabId, taskId, completed, API_KEY: key() },
       { withCredentials: true }
     );
     return await sendGrabTasks();
@@ -105,7 +115,7 @@ export const sendDeleteTask = async (tabId, taskId) => {
   const url = SERVER_URL + "/api/v1/task";
   try {
     const res = await axios.delete(url, {
-      data: { tabId, taskId },
+      data: { tabId, taskId, API_KEY: key() },
       withCredentials: true,
     });
     return await sendGrabTasks();

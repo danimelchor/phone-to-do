@@ -44,12 +44,12 @@ export default function CreateTab(props) {
           autoFocus
           className="rounded-sm border border-gray-200 w-full px-5 py-3 focus:outline-none focus:border-blue-500 mb-4"
         />
-        <div
+        <button
           onClick={create}
           className="rounded-sm w-full px-5 py-3 bg-blue-200 text-center"
         >
           {props.editId !== -1 ? "Save" : "Create tab"}
-        </div>
+        </button>
       </form>
     </div>
   );
