@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { LOGGED_ERROR } from "../../States";
-import { SERVER_URL } from "../../vars.config";
+import { SERVER_URL, TYPE } from "../../vars.config";
 
 export default function Login(props) {
   const [password, setPassword] = useState("");
 
   const login = (e) => {
-    e.preventDefault();
-    const url = SERVER_URL + "/api/v1/auth/login";
-    axios
-      .post(url, { password }, { withCredentials: true })
-      .then((res) => {
-        props.initialProcedure();
-      })
-      .catch((error) => {
-        props.setState(LOGGED_ERROR);
-      });
+    if (TYPE === "react") {
+    } else {
+      e.preventDefault();
+      const url = SERVER_URL + "/api/v1/auth/login";
+      axios
+        .post(url, { password, type: TYPE }, { withCredentials: true })
+        .then((res) => {
+          props.initialProcedure();
+        })
+        .catch((error) => {
+          props.setState(LOGGED_ERROR);
+        });
+    }
   };
 
   return (
@@ -28,7 +31,12 @@ export default function Login(props) {
         <p>
           Whoops! This page is password protected. Please type the password.
         </p>
-        <form onSubmit={login} className="w-full">
+        <form
+          onSubmit={login}
+          className="w-full"
+          action={SERVER_URL + "/api/v1/auth/login"}
+          method="POST"
+        >
           <input
             type="password"
             name="password"
@@ -36,6 +44,7 @@ export default function Login(props) {
             onChange={(e) => setPassword(e.target.value)}
             className="border border-gray-200 rounded-sm w-full py-3 px-5 my-4 focus:outline-none focus:border-blue-200"
           />
+          <input type="hidden" name="type" value={TYPE} />
           <button
             type="submit"
             onClick={login}
