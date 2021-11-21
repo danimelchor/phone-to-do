@@ -17,7 +17,8 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "main": "public/main.js",
   "scripts": {
@@ -67,7 +68,6 @@
     "electron": "^16.0.1",
     "postcss": "^7",
     "gh-pages": "^3.1.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "wait-on": "^6.0.0",
     "electron-builder": "^22.14.5"
   }
