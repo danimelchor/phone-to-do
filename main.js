@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 
-require("@electron/remote/main").initialize();
+// require("@electron/remote/main").initialize();
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -11,7 +11,6 @@ const createWindow = () => {
     width: 500,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
     },
   });
 
@@ -20,6 +19,10 @@ const createWindow = () => {
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
+
+  if (isDev) {
+    win.webContents.openDevTools({ mode: "detach" });
+  }
 };
 
 app.whenReady().then(() => {
